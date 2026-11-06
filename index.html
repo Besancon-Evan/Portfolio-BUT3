@@ -1,43 +1,313 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evan Besançon – Étudiant en GEII</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg: #070f20;
+      --panel: #0d1a33;
+      --card: #0f2040;
+      --border: #1c3560;
+      --blue: #2f9bff;
+      --blue-dark: #1b5fd6;
+      --text: #ffffff;
+      --muted: #a9b8d4;
+    }
 
-    <title>Mon portfolio GEII</title>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <style>
-        body {
-            background-color: #101827;
-            color: white;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 40px;
-        }
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
 
-        h1 {
-            color: #60a5fa;
-        }
+    /* ---------- BARRE LATÉRALE ---------- */
+    .sidebar {
+      width: 255px;
+      background: linear-gradient(180deg, #0a1428, #060c1a);
+      border-right: 1px solid var(--border);
+      padding: 28px 17px 20px;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
 
-        p {
-            color: #cbd5e1;
-            font-size: 18px;
-        }
-    </style>
+    .logo { text-align: center; }
+    .logo img { width: 120px; height: 120px; object-fit: contain; }
+    .logo h1 { font-size: 1.5rem; margin-top: 10px; }
+    .logo p { font-style: italic; color: var(--muted); margin-top: 4px; }
+
+    .sidebar hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 22px 18px;
+    }
+
+    .menu { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .menu a {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: background .2s;
+    }
+    .menu a i { width: 26px; text-align: center; font-size: 1.3rem; }
+    .menu a:hover { background: rgba(47, 155, 255, .15); }
+    .menu a.active { background: linear-gradient(90deg, var(--blue-dark), #2563eb); font-weight: 700; }
+
+    .sidebar-footer {
+      margin-top: auto;
+      text-align: center;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+    .sidebar-footer strong { display: block; font-size: 1.6rem; color: #6c7ea3; }
+
+    /* ---------- CONTENU ---------- */
+    main {
+      flex: 1;
+      padding: 28px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 28px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+    .section-title { display: flex; align-items: center; gap: 20px; }
+    .section-title > i { font-size: 3rem; color: var(--blue); }
+    .section-title h2 { font-size: 2.2rem; }
+    .section-title h2 span { color: var(--blue); }
+    .section-title p { color: var(--muted); margin-top: 6px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 26px;
+      border: 2px solid var(--blue-dark);
+      border-radius: 40px;
+      color: var(--text);
+      background: transparent;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background .2s;
+    }
+    .btn:hover { background: var(--blue-dark); }
+
+    /* ---------- CARTES PROJETS ---------- */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 22px;
+    }
+    .project-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      padding-bottom: 20px;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(47, 155, 255, .25);
+    }
+    .project-card img { width: 100%; height: 170px; object-fit: cover; display: block; }
+    .project-card h3 { font-size: 1.15rem; margin: 18px 18px 8px; }
+    .project-card p { color: var(--muted); margin: 0 18px; padding-right: 36px; line-height: 1.45; }
+    .project-card .go {
+      position: absolute;
+      right: 16px;
+      bottom: 14px;
+      color: var(--blue);
+      font-size: 1.7rem;
+      text-decoration: none;
+    }
+
+    /* ---------- PROFIL ---------- */
+    .profile {
+      position: relative;
+      overflow: hidden;
+      min-height: 380px;
+    }
+    .profile-content { position: relative; z-index: 2; max-width: 55%; }
+    .profile-content .section-title { margin-bottom: 18px; }
+    .profile-content .section-title h2 { font-size: 2.2rem; }
+    .profile-text { color: #dbe6fb; font-size: 1.15rem; line-height: 1.5; margin-bottom: 28px; }
+
+    .profile-info { display: flex; margin-bottom: 30px; }
+    .info-item { text-align: center; padding: 0 28px; border-left: 1px solid var(--border); }
+    .info-item:first-child { border-left: none; padding-left: 0; }
+    .info-item i { font-size: 1.8rem; color: var(--blue); }
+    .info-item strong { display: block; margin-top: 8px; }
+    .info-item small { color: var(--muted); }
+
+    .profile-image {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 50%;
+      background: url("images/batiment.jpg") center / cover no-repeat;
+      clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
+      z-index: 1;
+    }
+    .profile-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(10, 30, 70, .7), transparent 50%);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+      body { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; position: static; }
+      .menu { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+      .sidebar-footer { display: none; }
+      main { padding: 20px; }
+      .profile-content { max-width: 100%; }
+      .profile-image { position: relative; width: 100%; height: 220px; clip-path: none; margin-top: 20px; }
+      .profile-info { flex-wrap: wrap; gap: 16px; }
+    }
+  </style>
 </head>
-
 <body>
 
-    <h1>Mon portfolio GEII</h1>
+  <!-- BARRE LATÉRALE -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="images/logo.png" alt="Logo GEII">
+      <h1>Evan Besançon</h1>
+      <p>Étudiant en GEII</p>
+    </div>
+    <hr>
+    <ul class="menu">
+      <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> Accueil</a></li>
+      <li><a href="projets.html"><i class="fa-solid fa-microchip"></i> Mes projets AC</a></li>
+      <li><a href="profil.html"><i class="fa-solid fa-user"></i> Mon profil</a></li>
+      <li><a href="cv.html"><i class="fa-solid fa-file-lines"></i> CV</a></li>
+      <li><a href="competences.html"><i class="fa-solid fa-trophy"></i> Compétences</a></li>
+      <li><a href="parcours.html"><i class="fa-solid fa-graduation-cap"></i> Parcours</a></li>
+      <li><a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <hr>
+      <strong>GEII</strong>
+      Électronique • Automatisme<br>Informatique Industrielle
+    </div>
+  </aside>
 
-    <p>Bienvenue sur mon portfolio technique.</p>
+  <!-- CONTENU PRINCIPAL -->
+  <main>
 
-    <h2>Mes projets</h2>
+    <!-- PROJETS AC -->
+    <section>
+      <div class="section-header">
+        <div class="section-title">
+          <i class="fa-solid fa-microchip"></i>
+          <div>
+            <h2>Mes projets <span>AC</span></h2>
+            <p>Découvrez mes réalisations en automatique et en électronique.</p>
+          </div>
+        </div>
+        <a href="projets.html" class="btn">Voir tous mes projets <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
 
-    <p>Découvrez mes réalisations en électronique,
-    automatisme et programmation.</p>
+      <div class="projects">
+        <article class="project-card">
+          <img src="images/pcb-coeur.jpg" alt="PCB Battement Cardiaque">
+          <h3>PCB Battement Cardiaque</h3>
+          <p>Carte électronique simulant un rythme cardiaque avec Arduino.</p>
+          <a href="projet-pcb.html" class="go"><i class="fa-regular fa-circle-right"></i></a>
+        </article>
 
+        <article class="project-card">
+          <img src="images/buck.jpg" alt="Régulateur à découpage">
+          <h3>Régulateur à découpage</h3>
+          <p>Alimentation ajustable en tension (buck converter).</p>
+          <a href="projet-buck.html" class="go"><i class="fa-regular fa-circle-right"></i></a>
+        </article>
+
+        <article class="project-card">
+          <img src="images/moteur.jpg" alt="Contrôle de moteur 24V">
+          <h3>Contrôle de moteur 24V</h3>
+          <p>Pilotage d'un moteur industriel avec un driver.</p>
+          <a href="projet-moteur.html" class="go"><i class="fa-regular fa-circle-right"></i></a>
+        </article>
+
+        <article class="project-card">
+          <img src="images/balance.jpg" alt="Balance électronique">
+          <h3>Balance électronique</h3>
+          <p>Balance de précision avec Arduino et labdec.</p>
+          <a href="projet-balance.html" class="go"><i class="fa-regular fa-circle-right"></i></a>
+        </article>
+      </div>
+    </section>
+
+    <!-- PROFIL -->
+    <section class="profile">
+      <div class="profile-content">
+        <div class="section-title">
+          <i class="fa-solid fa-user"></i>
+          <h2>Mon <span>profil</span></h2>
+        </div>
+
+        <p class="profile-text">
+          Étudiant en BUT Génie Électrique et Informatique Industrielle (GEII),
+          je développe mes compétences en électronique, automatisme et
+          programmation pour relever les défis de demain.
+        </p>
+
+        <div class="profile-info">
+          <div class="info-item">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <strong>Parcours</strong>
+            <small>BUT GEII</small>
+          </div>
+          <div class="info-item">
+            <i class="fa-solid fa-gear"></i>
+            <strong>Compétences</strong>
+            <small>Électronique, API…</small>
+          </div>
+          <div class="info-item">
+            <i class="fa-solid fa-file-lines"></i>
+            <strong>Mon CV</strong>
+            <small>À télécharger</small>
+          </div>
+        </div>
+
+        <a href="profil.html" class="btn">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="profile-image"></div>
+    </section>
+
+  </main>
 </body>
-
 </html>
