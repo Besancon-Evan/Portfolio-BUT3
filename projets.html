@@ -134,7 +134,7 @@
       html { scroll-behavior: auto; }
     }
 
-    /* ================= BARRE LATÉRALE (compacte) ================= */
+    /* ================= BARRE LATÉRALE ================= */
     .sidebar {
       width: 260px;
       flex-shrink: 0;
@@ -152,9 +152,9 @@
     }
     .logo { text-align: center; }
     .logo img { width: 110px; height: 110px; object-fit: contain; }
-    .logo h1 { font-size: 1.7rem; margin-top: 8px; letter-spacing: .5px; }
-    .logo p { font-style: italic; color: var(--muted); margin-top: 2px; }
-    .sidebar hr { border: none; border-top: 1px solid var(--border); margin: 20px 14px; }
+    .logo h1 { font-size: 1.6rem; margin-top: 4px; letter-spacing: .5px; line-height: 1.15; }
+    .logo p { font-style: italic; color: var(--muted); margin-top: 2px; font-size: .95rem; }
+    .sidebar hr { border: none; border-top: 1px solid var(--border); margin: 14px 12px; }
 
     .menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
     .menu a {
@@ -195,9 +195,10 @@
     :root[data-view="pc"]    .icon-desktop, :root[data-view="pc"]    .lbl-pc    { display: none; }
     :root[data-view="phone"] .icon-phone,   :root[data-view="phone"] .lbl-phone { display: none; }
 
+    /* Écrans bas : on resserre pour éviter le défilement */
     @media (max-height: 760px) {
       .sidebar { padding: 14px 14px 12px; }
-      .logo img { width: 64px; height: 64px; }
+      .logo img { width: 84px; height: 84px; }
       .logo h1 { font-size: 1.4rem; }
       .sidebar hr { margin: 10px 12px; }
       .menu a { padding: 7px 14px; font-size: 1rem; }
