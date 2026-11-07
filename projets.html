@@ -30,14 +30,15 @@
        --wallpaper      : le fichier de ton image de fond
        --veil-opacity   : voile sur l'image (0 = image pure)
        --glass-opacity  : part de turquoise du bloc vitré
-                          (0 = vitre transparente, 1 = turquoise plein)
        --glass-blur     : intensité du flou derrière la vitre
+       --logo-bg        : fond des cartes de logos du footer
        ====================================================== */
     :root {
       --wallpaper: url("images/fond.jpg");
       --veil-opacity: .3;
       --glass-opacity: .65;
       --glass-blur: 14px;
+      --logo-bg: #c4f1ee;
     }
 
     /* ================= THÈMES ================= */
@@ -88,7 +89,7 @@
     }
     h1, h2, h3, h4, .badge, .menu a, .topbar-title { font-family: "Rajdhani", "Inter", sans-serif; }
 
-    /* ================= FOND D'ÉCRAN (fixe, compatible iPhone) ================= */
+    /* ================= FOND D'ÉCRAN ================= */
     body::before {
       content: "";
       position: fixed; inset: 0;
@@ -133,55 +134,56 @@
       html { scroll-behavior: auto; }
     }
 
-    /* ================= BARRE LATÉRALE ================= */
+    /* ================= BARRE LATÉRALE (compacte) ================= */
     .sidebar {
       width: 260px;
       flex-shrink: 0;
       align-self: flex-start;
       background: linear-gradient(180deg, var(--panel), var(--bg));
       border-right: 1px solid var(--border);
-      padding: 28px 17px 20px;
+      padding: 20px 15px 16px;
       display: flex;
       flex-direction: column;
       position: sticky;
       top: 0;
       height: 100vh;
       overflow-y: auto;
+      scrollbar-width: thin;
     }
     .logo { text-align: center; }
-    .logo img { width: 110px; height: 110px; object-fit: contain; }
-    .logo h1 { font-size: 1.7rem; margin-top: 8px; letter-spacing: .5px; }
-    .logo p { font-style: italic; color: var(--muted); margin-top: 2px; }
-    .sidebar hr { border: none; border-top: 1px solid var(--border); margin: 20px 14px; }
+    .logo img { width: 84px; height: 84px; object-fit: contain; }
+    .logo h1 { font-size: 1.55rem; margin-top: 4px; letter-spacing: .5px; line-height: 1.15; }
+    .logo p { font-style: italic; color: var(--muted); margin-top: 2px; font-size: .95rem; }
+    .sidebar hr { border: none; border-top: 1px solid var(--border); margin: 14px 12px; }
 
-    .menu { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
     .menu a {
       display: flex; align-items: center; gap: 14px;
-      padding: 12px 16px;
+      padding: 9px 15px;
       border-radius: 12px;
       color: var(--text);
       text-decoration: none;
       font-weight: 600;
-      font-size: 1.08rem;
+      font-size: 1.05rem;
       letter-spacing: .3px;
       transition: background .2s;
     }
-    .menu a i { width: 26px; text-align: center; font-size: 1.2rem; color: var(--accent); }
+    .menu a i { width: 26px; text-align: center; font-size: 1.15rem; color: var(--accent); }
     .menu a:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
     .menu a.active { background: var(--accent-dark); color: #fff; }
     .menu a.active i { color: #fff; }
 
-    .sidebar-bottom { margin-top: auto; padding-top: 18px; }
-    .toggles { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .sidebar-bottom { margin-top: auto; padding-top: 14px; }
+    .toggles { display: flex; flex-direction: column; gap: 8px; }
     .toggle-btn {
       width: 100%;
       display: flex; align-items: center; justify-content: center; gap: 10px;
-      padding: 11px 14px;
+      padding: 9px 14px;
       background: transparent;
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 12px;
-      font: 600 .95rem "Inter", sans-serif;
+      font: 600 .93rem "Inter", sans-serif;
       cursor: pointer;
       transition: background .2s;
     }
@@ -193,7 +195,17 @@
     :root[data-view="pc"]    .icon-desktop, :root[data-view="pc"]    .lbl-pc    { display: none; }
     :root[data-view="phone"] .icon-phone,   :root[data-view="phone"] .lbl-phone { display: none; }
 
-    .logo-card { background: #fff; border-radius: 14px; padding: 10px; }
+    @media (max-height: 760px) {
+      .sidebar { padding: 14px 14px 12px; }
+      .logo img { width: 64px; height: 64px; }
+      .logo h1 { font-size: 1.4rem; }
+      .sidebar hr { margin: 10px 12px; }
+      .menu a { padding: 7px 14px; font-size: 1rem; }
+      .toggle-btn { padding: 7px 12px; }
+    }
+
+    /* ================= CARTES DE LOGOS (footer) ================= */
+    .logo-card { background: var(--logo-bg); border-radius: 14px; padding: 10px; }
     .logo-card img { width: 100%; display: block; }
 
     /* ================= CONTENU ================= */
@@ -215,7 +227,7 @@
     .section-header h2 span { color: var(--accent); }
     .section-header p { color: var(--muted); margin-top: 4px; }
 
-    /* ================= BLOCS C1 → C4 (pleins, sans transparence) ================= */
+    /* ================= BLOCS C1 → C4 (pleins) ================= */
     .ac-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -338,7 +350,9 @@
       font-weight: 600;
     }
     .btn-footer:hover { background: #6fd6c8; color: #082826; text-decoration: none; }
-    .footer-logo .logo-card { max-width: 230px; margin-left: auto; }
+
+    .footer-logo { display: flex; flex-direction: column; gap: 14px; align-items: flex-end; }
+    .footer-logo .logo-card { width: 100%; max-width: 230px; }
 
     .footer-bottom {
       display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px;
@@ -422,7 +436,7 @@
     :root[data-view="phone"] .ac-arrow { display: none; }
     :root[data-view="phone"] footer { padding: 36px 20px 20px; border-radius: 28px 28px 0 0; }
     :root[data-view="phone"] .footer-grid { grid-template-columns: 1fr; gap: 30px; }
-    :root[data-view="phone"] .footer-logo .logo-card { margin-left: 0; }
+    :root[data-view="phone"] .footer-logo { align-items: flex-start; }
     :root[data-view="phone"] .footer-bottom { flex-direction: column; }
   </style>
 </head>
@@ -464,7 +478,6 @@
             <span class="lbl-phone">Vue téléphone</span>
             <span class="lbl-pc">Vue PC</span>
           </button>
-        </div>
         </div>
       </div>
     </aside>
@@ -586,6 +599,9 @@
         <div class="footer-logo">
           <div class="logo-card">
             <img src="images/logo-partenaires.png" alt="UMLP – IUT Nord Franche-Comté">
+          </div>
+          <div class="logo-card">
+            <img src="images/logo-geii.png" alt="Logo GEII – IUT Nord Franche-Comté">
           </div>
         </div>
 
