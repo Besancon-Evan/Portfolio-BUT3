@@ -384,15 +384,17 @@
     footer ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     footer a { color: var(--footer-link); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
+
+    /* Voyants C1 → C4 (rouge éclairci pour briller autant que les autres) */
     .dot {
       display: inline-block; width: 10px; height: 10px; border-radius: 50%;
       margin-right: 10px;
-      box-shadow: 0 0 6px currentColor;
+      box-shadow: 0 0 9px 2px currentColor;
     }
-    .dot.c1 { background: var(--c1); color: var(--c1); }
-    .dot.c2 { background: var(--c2); color: var(--c2); }
-    .dot.c3 { background: var(--c3); color: var(--c3); }
-    .dot.c4 { background: var(--c4); color: var(--c4); }
+    .dot.c1 { background: #4c8dff; color: #4c8dff; }
+    .dot.c2 { background: #ff5c61; color: #ff5c61; }
+    .dot.c3 { background: #f5c542; color: #f5c542; }
+    .dot.c4 { background: #4cc27a; color: #4cc27a; }
 
     .socials { display: flex; gap: 16px; font-size: 1.5rem; margin: 14px 0; }
     .btn-footer {
@@ -405,9 +407,22 @@
     }
     .btn-footer:hover { background: var(--footer-link); color: var(--footer-bg); text-decoration: none; }
 
-    /* Logos sans fond, petits */
-    .footer-logo { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
-    .footer-logo img { display: block; width: 100%; max-width: 140px; filter: var(--logo-filter); }
+    /* Logos : même vert clair que les liens, côte à côte */
+    .footer-logo {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 22px;
+    }
+    .logo-tint {
+      display: block;
+      width: 100px;
+      background: var(--footer-link);
+      -webkit-mask: var(--logo) center / contain no-repeat;
+      mask: var(--logo) center / contain no-repeat;
+    }
+    .logo-tint img { display: block; width: 100%; opacity: 0; }
 
     .footer-bottom {
       display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;
@@ -694,8 +709,12 @@
         </div>
 
         <div class="footer-logo">
-          <img src="images/logo-partenaires.png" alt="UMLP – IUT Nord Franche-Comté">
-          <img src="images/logo-geii.png" alt="Logo GEII – IUT Nord Franche-Comté">
+          <span class="logo-tint" style="--logo:url('images/logo-partenaires.png')">
+            <img src="images/logo-partenaires.png" alt="UMLP – IUT Nord Franche-Comté">
+          </span>
+          <span class="logo-tint" style="--logo:url('images/logo-geii.png')">
+            <img src="images/logo-geii.png" alt="Logo GEII – IUT Nord Franche-Comté">
+          </span>
         </div>
 
       </div>
