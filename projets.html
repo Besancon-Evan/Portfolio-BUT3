@@ -27,18 +27,20 @@
   <style>
     /* ======================================================
        RÉGLAGES RAPIDES
-       --wallpaper      : le fichier de ton image de fond
+       --wallpaper      : image de fond
        --veil-opacity   : voile sur l'image (0 = image pure)
        --glass-opacity  : part de turquoise du bloc vitré
        --glass-blur     : intensité du flou derrière la vitre
-       --logo-bg        : fond des cartes de logos du footer
+       --logo-filter    : aspect des logos du footer
+                          "brightness(0) invert(1)" = logos blancs
+                          "none" = logos dans leurs couleurs d'origine
        ====================================================== */
     :root {
       --wallpaper: url("images/fond.jpg");
       --veil-opacity: .3;
       --glass-opacity: .65;
       --glass-blur: 14px;
-      --logo-bg: #c4f1ee;
+      --logo-filter: brightness(0) invert(1);
     }
 
     /* ================= THÈMES ================= */
@@ -55,6 +57,10 @@
       --shadow: rgba(0, 0, 0, .35);
       --glass-bg: rgba(19, 82, 77, var(--glass-opacity));
       --glass-border: rgba(255, 255, 255, .18);
+      --footer-bg: #082826;
+      --footer-text: #f1ede0;
+      --footer-link: #6fd6c8;
+      --footer-line: rgba(255, 255, 255, .15);
     }
     :root[data-theme="light"] {
       --outer: #cfe2df;
@@ -69,6 +75,11 @@
       --shadow: rgba(16, 48, 44, .15);
       --glass-bg: rgba(196, 230, 225, var(--glass-opacity));
       --glass-border: rgba(255, 255, 255, .55);
+      /* Footer plus clair en mode clair (change cette valeur pour ajuster) */
+      --footer-bg: #2f8077;
+      --footer-text: #f4fffd;
+      --footer-link: #e6fffb;
+      --footer-line: rgba(255, 255, 255, .3);
     }
     :root {
       --c1: #4c8dff;
@@ -195,7 +206,6 @@
     :root[data-view="pc"]    .icon-desktop, :root[data-view="pc"]    .lbl-pc    { display: none; }
     :root[data-view="phone"] .icon-phone,   :root[data-view="phone"] .lbl-phone { display: none; }
 
-    /* Écrans bas : on resserre pour éviter le défilement */
     @media (max-height: 760px) {
       .sidebar { padding: 14px 14px 12px; }
       .logo img { width: 84px; height: 84px; }
@@ -205,14 +215,9 @@
       .toggle-btn { padding: 7px 12px; }
     }
 
-    /* ================= CARTES DE LOGOS (footer) ================= */
-    .logo-card { background: var(--logo-bg); border-radius: 14px; padding: 10px; }
-    .logo-card img { width: 100%; display: block; }
-
     /* ================= CONTENU ================= */
     main { flex: 1; padding: 28px 40px 40px; display: flex; flex-direction: column; gap: 28px; }
 
-    /* Bloc principal en VERRE DÉPOLI, teinté turquoise */
     section.block {
       background: var(--glass-bg);
       -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
@@ -308,29 +313,30 @@
     }
     .ac-list li a:hover .ac-arrow { transform: translateX(4px); opacity: 1; }
 
-    /* ================= FOOTER ================= */
+    /* ================= FOOTER (compact) ================= */
     footer {
-      background: #082826;
-      color: #f1ede0;
-      border-radius: 36px 36px 0 0;
-      padding: 56px 40px 24px;
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      border-radius: 32px 32px 0 0;
+      padding: 34px 40px 16px;
+      transition: background .3s;
     }
     .footer-grid {
       display: grid;
       grid-template-columns: 1fr 1.2fr 1fr;
-      gap: 48px;
-      padding-bottom: 36px;
-      border-bottom: 1px solid rgba(255, 255, 255, .15);
+      gap: 36px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--footer-line);
     }
     footer h4 {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       letter-spacing: .5px;
-      padding-bottom: 12px;
-      margin-bottom: 18px;
-      border-bottom: 1px solid rgba(255, 255, 255, .15);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--footer-line);
     }
-    footer ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    footer a { color: #6fd6c8; text-decoration: none; }
+    footer ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    footer a { color: var(--footer-link); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
     .dot {
       display: inline-block; width: 10px; height: 10px; border-radius: 50%;
@@ -342,26 +348,27 @@
     .dot.c3 { background: var(--c3); color: var(--c3); }
     .dot.c4 { background: var(--c4); color: var(--c4); }
 
-    .socials { display: flex; gap: 18px; font-size: 1.7rem; margin: 18px 0; }
+    .socials { display: flex; gap: 16px; font-size: 1.5rem; margin: 14px 0; }
     .btn-footer {
       display: inline-block;
-      padding: 12px 20px;
-      border: 1px solid #6fd6c8;
+      padding: 10px 18px;
+      border: 1px solid var(--footer-link);
       border-radius: 8px;
       font-weight: 600;
+      font-size: .95rem;
     }
-    .btn-footer:hover { background: #6fd6c8; color: #082826; text-decoration: none; }
+    .btn-footer:hover { background: var(--footer-link); color: var(--footer-bg); text-decoration: none; }
 
-    .footer-logo { display: flex; flex-direction: column; gap: 14px; align-items: flex-end; }
-    .footer-logo .logo-card { width: 100%; max-width: 230px; }
+    .footer-logo { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+    .footer-logo img { display: block; width: 100%; max-width: 140px; filter: var(--logo-filter); }
 
     .footer-bottom {
-      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px;
-      padding-top: 20px;
-      font-size: .92rem;
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;
+      padding-top: 14px;
+      font-size: .9rem;
     }
-    .footer-bottom ul { flex-direction: row; flex-wrap: wrap; gap: 26px; }
-    .footer-bottom span { color: rgba(241, 237, 224, .75); }
+    .footer-bottom ul { flex-direction: row; flex-wrap: wrap; gap: 24px; }
+    .footer-bottom span { opacity: .8; }
 
     /* ======================================================
        VUE TÉLÉPHONE
@@ -435,9 +442,10 @@
     :root[data-view="phone"] .ac-card h3 { font-size: 1.3rem; }
     :root[data-view="phone"] .ac-list li a { flex-direction: column; gap: 2px; }
     :root[data-view="phone"] .ac-arrow { display: none; }
-    :root[data-view="phone"] footer { padding: 36px 20px 20px; border-radius: 28px 28px 0 0; }
-    :root[data-view="phone"] .footer-grid { grid-template-columns: 1fr; gap: 30px; }
-    :root[data-view="phone"] .footer-logo { align-items: flex-start; }
+    :root[data-view="phone"] footer { padding: 28px 20px 16px; border-radius: 26px 26px 0 0; }
+    :root[data-view="phone"] .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    :root[data-view="phone"] .footer-logo { align-items: flex-start; flex-direction: row; gap: 20px; }
+    :root[data-view="phone"] .footer-logo img { max-width: 120px; }
     :root[data-view="phone"] .footer-bottom { flex-direction: column; }
   </style>
 </head>
@@ -598,12 +606,8 @@
         </div>
 
         <div class="footer-logo">
-          <div class="logo-card">
-            <img src="images/logo-partenaires.png" alt="UMLP – IUT Nord Franche-Comté">
-          </div>
-          <div class="logo-card">
-            <img src="images/logo-geii.png" alt="Logo GEII – IUT Nord Franche-Comté">
-          </div>
+          <img src="images/logo-partenaires.png" alt="UMLP – IUT Nord Franche-Comté">
+          <img src="images/logo-geii.png" alt="Logo GEII – IUT Nord Franche-Comté">
         </div>
 
       </div>
