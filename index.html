@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Mes projets AC : les quatre compétences du BUT GEII et leurs apprentissages critiques.">
-  <title>Mes projets AC – Evan Besançon</title>
+  <meta name="description" content="Portfolio d'Evan Besançon, étudiant en BUT GEII à l'IUT Nord Franche-Comté.">
+  <title>Evan Besançon – Étudiant en GEII</title>
   <link rel="icon" href="images/logo.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
        RÉGLAGES RAPIDES
        --wallpaper      : image de fond
        --veil-opacity   : voile sur l'image (0 = image pure)
-       --glass-opacity  : part de turquoise du bloc vitré
+       --glass-opacity  : part de turquoise des blocs vitrés
        --glass-blur     : intensité du flou derrière la vitre
        --logo-filter    : aspect des logos du footer
                           "brightness(0) invert(1)" = logos blancs
@@ -127,7 +127,7 @@
     .topbar { display: none; }
     .page { flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 100vh; }
 
-    /* ================= ANIMATION ================= */
+    /* ================= ANIMATION (sans flash) ================= */
     .boot { animation: boot .7s ease-out backwards; animation-delay: calc(var(--i, 0) * 110ms); }
     @keyframes boot {
       from { opacity: 0; transform: translateY(12px); }
@@ -227,34 +227,119 @@
       padding: 28px;
       box-shadow: 0 8px 32px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .12);
     }
-    .section-header { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
-    .section-header > i { font-size: 2.8rem; color: var(--accent); }
-    .section-header h2 { font-size: 2.3rem; line-height: 1.1; letter-spacing: .5px; }
-    .section-header h2 span { color: var(--accent); }
-    .section-header p { color: var(--muted); margin-top: 4px; }
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+      margin-bottom: 26px;
+    }
+    .section-title { display: flex; align-items: center; gap: 18px; }
+    .section-title > i { font-size: 2.8rem; color: var(--accent); }
+    .section-title h2 { font-size: 2.3rem; line-height: 1.1; letter-spacing: .5px; }
+    .section-title h2 span { color: var(--accent); }
+    .section-title p { color: var(--muted); margin-top: 4px; }
 
-    /* ================= BLOCS C1 → C4 (pleins) ================= */
-    .ac-grid {
+    .btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 13px 26px;
+      border: 2px solid var(--accent-dark);
+      border-radius: 40px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      transition: background .2s, color .2s;
+    }
+    .btn:hover { background: var(--accent-dark); color: #fff; }
+
+    /* ================= BANNIÈRE DE BIENVENUE ================= */
+    .welcome { text-align: center; padding: 30px 28px; }
+    .welcome h2 { font-size: 2.8rem; line-height: 1.1; letter-spacing: 1px; }
+    .welcome h2 span { color: var(--accent); }
+    .welcome p { color: var(--muted); margin-top: 8px; font-size: 1.1rem; }
+
+    /* ================= PROFIL ================= */
+    .profile-layout { display: grid; grid-template-columns: 1fr 280px; gap: 36px; align-items: center; }
+    .profile-content .section-title { margin-bottom: 18px; }
+    .profile-text { font-size: 1.12rem; line-height: 1.6; margin-bottom: 28px; }
+
+    .profile-info { display: flex; flex-wrap: wrap; row-gap: 14px; margin-bottom: 30px; }
+    .info-item {
+      text-align: center; padding: 0 26px;
+      border-left: 1px solid var(--glass-border);
+      color: var(--text); text-decoration: none;
+    }
+    .info-item:first-child { border-left: none; padding-left: 0; }
+    .info-item i { font-size: 1.7rem; color: var(--accent); }
+    .info-item strong { display: block; margin-top: 8px; font-family: "Rajdhani", sans-serif; font-size: 1.1rem; }
+    .info-item small { color: var(--muted); }
+
+    /* Emplacement de la photo : dépose images/photo.jpg */
+    .profile-photo {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 2px solid var(--glass-border);
+      background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 35%, var(--card)), var(--card));
+      box-shadow: 0 8px 28px var(--shadow);
+      display: grid; place-items: center;
+    }
+    .profile-photo > i { font-size: 5rem; color: color-mix(in srgb, var(--text) 45%, transparent); }
+    .profile-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ================= CARTES C1 → C4 (pleines) ================= */
+    .projects {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 22px;
     }
-    .ac-card {
-      --card-bg: color-mix(in srgb, var(--c) 16%, var(--card));
+    .project-card {
+      --card-bg: color-mix(in srgb, var(--c) 20%, var(--card));
+      position: relative;
+      display: flex; flex-direction: column;
       background: var(--card-bg);
       border: 1px solid color-mix(in srgb, var(--c) 55%, var(--border));
       border-top: 4px solid var(--c);
       border-radius: 16px;
-      padding: 22px 24px 24px;
-      scroll-margin-top: 20px;
+      overflow: hidden;
+      color: var(--text);
+      text-decoration: none;
+      transition: transform .25s, box-shadow .25s;
     }
-    .ac-card.c1 { --c: var(--c1); }
-    .ac-card.c2 { --c: var(--c2); }
-    .ac-card.c3 { --c: var(--c3); }
-    .ac-card.c4 { --c: var(--c4); }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px color-mix(in srgb, var(--c) 40%, transparent);
+    }
+    .project-card.c1 { --c: var(--c1); }
+    .project-card.c2 { --c: var(--c2); }
+    .project-card.c3 { --c: var(--c3); }
+    .project-card.c4 { --c: var(--c4); }
 
-    .ac-head { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; margin-bottom: 16px; }
+    /* Espace image : arrondi, fond en dégradé vers la couleur de la carte */
+    .thumb {
+      position: relative;
+      height: 165px;
+      margin: 10px 10px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background-image:
+        var(--img, none),
+        linear-gradient(135deg, color-mix(in srgb, var(--c) 55%, var(--card)), color-mix(in srgb, var(--c) 18%, var(--card)));
+      background-size: cover;
+      background-position: center;
+    }
+    .thumb::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, var(--card-bg) 100%);
+    }
+    .card-body {
+      position: relative;
+      padding: 6px 20px 22px;
+      flex: 1;
+      display: flex; flex-direction: column; gap: 12px;
+    }
     .badge {
+      align-self: flex-start;
       display: inline-flex; align-items: center; gap: 8px;
       padding: 3px 14px 3px 10px;
       border-radius: 20px;
@@ -265,53 +350,14 @@
       letter-spacing: 1px;
     }
     .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #fff; opacity: .85; }
-    .niveau {
-      margin-left: auto;
-      padding: 3px 12px;
-      border: 1px solid color-mix(in srgb, var(--c) 70%, transparent);
-      border-radius: 20px;
-      color: var(--text);
-      font-size: .85rem;
-      font-weight: 600;
-    }
-    .ac-card h3 { font-size: 1.45rem; line-height: 1.2; letter-spacing: .3px; margin-bottom: 18px; }
-
-    /* ---- Les 12 AC : boutons entourés ---- */
-    .ac-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .ac-list li a {
-      display: flex; align-items: baseline; gap: 12px;
-      padding: 12px 14px;
-      border: 2px solid color-mix(in srgb, var(--c) 70%, transparent);
-      border-radius: 12px;
-      background: color-mix(in srgb, var(--c) 8%, transparent);
-      color: inherit;
-      text-decoration: none;
-      line-height: 1.45;
-      transition: background .2s, border-color .2s, box-shadow .2s;
-    }
-    .ac-list li a:hover {
-      border-color: var(--c);
-      background: color-mix(in srgb, var(--c) 22%, transparent);
-      box-shadow: 0 4px 14px color-mix(in srgb, var(--c) 30%, transparent);
-    }
-    .ac-list li a:focus-visible { outline: 3px solid var(--c); outline-offset: 2px; }
-    .ac-code {
-      flex-shrink: 0;
-      font-family: "Rajdhani", sans-serif;
-      font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: .5px;
+    .project-card h3 { font-size: 1.35rem; line-height: 1.2; letter-spacing: .3px; padding-right: 40px; }
+    .project-card .go {
+      position: absolute; right: 18px; bottom: 18px;
+      font-size: 1.7rem;
       color: var(--c);
+      transition: transform .2s;
     }
-    :root[data-theme="light"] .ac-card.c3 .ac-code { color: #a87c00; }
-    .ac-arrow {
-      margin-left: auto;
-      flex-shrink: 0;
-      color: var(--c);
-      opacity: .7;
-      transition: transform .2s, opacity .2s;
-    }
-    .ac-list li a:hover .ac-arrow { transform: translateX(4px); opacity: 1; }
+    .project-card:hover .go { transform: translateX(4px); }
 
     /* ================= FOOTER (compact) ================= */
     footer {
@@ -359,6 +405,7 @@
     }
     .btn-footer:hover { background: var(--footer-link); color: var(--footer-bg); text-decoration: none; }
 
+    /* Logos sans fond, petits */
     .footer-logo { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
     .footer-logo img { display: block; width: 100%; max-width: 140px; filter: var(--logo-filter); }
 
@@ -434,19 +481,26 @@
     :root[data-view="phone"] main { padding: 18px 16px 28px; gap: 20px; }
     :root[data-view="phone"] section.block { padding: 18px; border-radius: 18px; }
     :root[data-view="phone"] .section-header { margin-bottom: 18px; }
-    :root[data-view="phone"] .section-header > i { font-size: 2.1rem; }
-    :root[data-view="phone"] .section-header h2 { font-size: 1.8rem; }
-    :root[data-view="phone"] .section-header p { font-size: .92rem; }
-    :root[data-view="phone"] .ac-grid { grid-template-columns: 1fr; gap: 16px; }
-    :root[data-view="phone"] .ac-card { padding: 18px 16px 20px; }
-    :root[data-view="phone"] .ac-card h3 { font-size: 1.3rem; }
-    :root[data-view="phone"] .ac-list li a { flex-direction: column; gap: 2px; }
-    :root[data-view="phone"] .ac-arrow { display: none; }
+    :root[data-view="phone"] .section-title > i { font-size: 2.1rem; }
+    :root[data-view="phone"] .section-title h2 { font-size: 1.8rem; }
+    :root[data-view="phone"] .section-title p { font-size: .92rem; }
+    :root[data-view="phone"] .btn { padding: 11px 20px; font-size: .95rem; }
+    :root[data-view="phone"] .welcome h2 { font-size: 2rem; }
+    :root[data-view="phone"] .welcome p { font-size: 1rem; }
+    :root[data-view="phone"] .profile-layout { grid-template-columns: 1fr; gap: 22px; }
+    :root[data-view="phone"] .profile-photo { order: -1; width: 70%; max-width: 240px; margin: 0 auto; }
+    :root[data-view="phone"] .profile-text { font-size: 1rem; }
+    :root[data-view="phone"] .info-item { padding: 0 16px; }
+    :root[data-view="phone"] .projects { grid-template-columns: 1fr; gap: 16px; }
     :root[data-view="phone"] footer { padding: 28px 20px 16px; border-radius: 26px 26px 0 0; }
     :root[data-view="phone"] .footer-grid { grid-template-columns: 1fr; gap: 24px; }
     :root[data-view="phone"] .footer-logo { align-items: flex-start; flex-direction: row; gap: 20px; }
     :root[data-view="phone"] .footer-logo img { max-width: 120px; }
     :root[data-view="phone"] .footer-bottom { flex-direction: column; }
+
+    @media (max-width: 1000px) {
+      :root[data-view="pc"] .profile-layout { grid-template-columns: 1fr 220px; }
+    }
   </style>
 </head>
 <body>
@@ -464,8 +518,8 @@
       </div>
       <hr>
       <ul class="menu">
-        <li class="boot" style="--i:1"><a href="index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
-        <li class="boot" style="--i:1"><a href="projets.html" class="active"><i class="fa-solid fa-microchip"></i> Mes projets AC</a></li>
+        <li class="boot" style="--i:1"><a href="index.html" class="active"><i class="fa-solid fa-house"></i> Accueil</a></li>
+        <li class="boot" style="--i:1"><a href="projets.html"><i class="fa-solid fa-microchip"></i> Mes projets AC</a></li>
         <li class="boot" style="--i:2"><a href="profil.html"><i class="fa-solid fa-user"></i> Mon profil</a></li>
         <li class="boot" style="--i:2"><a href="cv.html"><i class="fa-solid fa-file-lines"></i> CV</a></li>
         <li class="boot" style="--i:3"><a href="competences.html"><i class="fa-solid fa-trophy"></i> Compétences</a></li>
@@ -506,75 +560,109 @@
     </header>
 
     <main>
-      <section class="block boot" style="--i:1">
-        <div class="section-header">
-          <i class="fa-solid fa-microchip"></i>
-          <div>
-            <h2>Mes projets <span>AC</span></h2>
-            <p>Les quatre compétences du BUT GEII et leurs apprentissages critiques.</p>
+
+      <!-- BIENVENUE -->
+      <section class="block welcome boot" style="--i:1">
+        <h2>Bienvenue sur <span>mon site</span></h2>
+        <p>Portfolio d'Evan Besançon – BUT Génie Électrique et Informatique Industrielle</p>
+      </section>
+
+      <!-- PROFIL -->
+      <section class="block boot" style="--i:2">
+        <div class="profile-layout">
+          <div class="profile-content">
+            <div class="section-title">
+              <i class="fa-solid fa-user"></i>
+              <h2>Mon <span>profil</span></h2>
+            </div>
+
+            <p class="profile-text">
+              Étudiant en BUT Génie Électrique et Informatique Industrielle (GEII),
+              je développe mes compétences en électronique, automatisme et
+              programmation pour relever les défis de demain.
+            </p>
+
+            <div class="profile-info">
+              <a class="info-item" href="parcours.html">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <strong>Parcours</strong>
+                <small>BUT GEII</small>
+              </a>
+              <a class="info-item" href="competences.html">
+                <i class="fa-solid fa-gear"></i>
+                <strong>Compétences</strong>
+                <small>Électronique, API…</small>
+              </a>
+              <a class="info-item" href="cv.pdf" download>
+                <i class="fa-solid fa-file-lines"></i>
+                <strong>Mon CV</strong>
+                <small>À télécharger</small>
+              </a>
+            </div>
+
+            <a href="profil.html" class="btn">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+
+          <!-- Ta photo : dépose images/photo.jpg -->
+          <div class="profile-photo">
+            <i class="fa-solid fa-user"></i>
+            <img src="images/photo.jpg" alt="Photo d'Evan Besançon" onerror="this.remove()">
           </div>
         </div>
+      </section>
 
-        <div class="ac-grid">
-
-          <!-- C1 -->
-          <article class="ac-card c1 boot" id="c1" style="--i:2">
-            <div class="ac-head">
-              <span class="badge led" style="--i:2">C1</span>
-              <span class="niveau">Niveau 3</span>
+      <!-- COMPÉTENCES C1 → C4 -->
+      <section class="block boot" style="--i:3">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fa-solid fa-microchip"></i>
+            <div>
+              <h2>Mes projets <span>AC</span></h2>
+              <p>Découvrez mes réalisations en automatique et en électronique.</p>
             </div>
-            <h3>Concevoir la partie GEII d'un système</h3>
-            <ul class="ac-list">
-              <li><a href="ac31-01.html"><span class="ac-code">AC31.01</span><span>Contribuer à la rédaction d’un cahier des charges</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-              <li><a href="ac31-02.html"><span class="ac-code">AC31.02</span><span>Prouver la pertinence de ses choix technologiques</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-              <li><a href="ac31-03.html"><span class="ac-code">AC31.03</span><span>Rédiger un dossier de conception</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-            </ul>
-          </article>
+          </div>
+          <a href="projets.html" class="btn">Voir toutes les AC <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
 
-          <!-- C2 -->
-          <article class="ac-card c2 boot" id="c2" style="--i:3">
-            <div class="ac-head">
-              <span class="badge led" style="--i:3">C2</span>
-              <span class="niveau">Niveau 3</span>
+        <div class="projects">
+          <a href="c1.html" class="project-card c1 boot" style="--i:4">
+            <div class="thumb" style="--img:url('images/c1.jpg')"></div>
+            <div class="card-body">
+              <span class="badge led" style="--i:4">C1</span>
+              <h3>Concevoir la partie GEII d'un système</h3>
+              <i class="fa-regular fa-circle-right go"></i>
             </div>
-            <h3>Vérifier la partie GEII d'un système</h3>
-            <ul class="ac-list">
-              <li><a href="ac32-01.html"><span class="ac-code">AC32.01</span><span>Évaluer la cause racine d’un dysfonctionnement</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-              <li><a href="ac32-02.html"><span class="ac-code">AC32.02</span><span>Proposer une solution corrective à un dysfonctionnement</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-              <li><a href="ac32-03.html"><span class="ac-code">AC32.03</span><span>Produire une procédure d’essais pour valider la conformité d’un système</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-            </ul>
-          </article>
+          </a>
 
-          <!-- C3 -->
-          <article class="ac-card c3 boot" id="c3" style="--i:4">
-            <div class="ac-head">
-              <span class="badge led" style="--i:4">C3</span>
-              <span class="niveau">Niveau 2</span>
+          <a href="c2.html" class="project-card c2 boot" style="--i:5">
+            <div class="thumb" style="--img:url('images/c2.jpg')"></div>
+            <div class="card-body">
+              <span class="badge led" style="--i:5">C2</span>
+              <h3>Vérifier la partie GEII d'un système</h3>
+              <i class="fa-regular fa-circle-right go"></i>
             </div>
-            <h3>Assurer le maintien en condition opérationnelle d'un système</h3>
-            <ul class="ac-list">
-              <li><a href="ac33-01.html"><span class="ac-code">AC33.01</span><span>Proposer une solution de maintenance</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-              <li><a href="ac33-02.html"><span class="ac-code">AC33.02</span><span>Évaluer les coûts d’indisponibilité et de maintenance d’un système</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-              <li><a href="ac33-03.html"><span class="ac-code">AC33.03</span><span>Proposer un appui technique aux différents acteurs à l’échelle nationale et internationale</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-            </ul>
-          </article>
+          </a>
 
-          <!-- C4 -->
-          <article class="ac-card c4 boot" id="c4" style="--i:5">
-            <div class="ac-head">
-              <span class="badge led" style="--i:5">C4</span>
-              <span class="niveau">Niveau 2</span>
+          <a href="c3.html" class="project-card c3 boot" style="--i:6">
+            <div class="thumb" style="--img:url('images/c3.jpg')"></div>
+            <div class="card-body">
+              <span class="badge led" style="--i:6">C3</span>
+              <h3>Assurer le maintien en condition opérationnelle d'un système</h3>
+              <i class="fa-regular fa-circle-right go"></i>
             </div>
-            <h3>Implanter la partie GEII d'un système</h3>
-            <ul class="ac-list">
-              <li><a href="ac34-01.html"><span class="ac-code">AC34.01</span><span>Produire une procédure d’installation et de mise en service d’un système</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-              <li><a href="ac34-02.html"><span class="ac-code">AC34.02</span><span>Exécuter la mise en service d’un système en respectant la procédure</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-              <li><a href="ac34-03.html"><span class="ac-code">AC34.03</span><span>Produire le dossier de conformité du système en gérant le versionnage</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
-            </ul>
-          </article>
+          </a>
 
+          <a href="c4.html" class="project-card c4 boot" style="--i:7">
+            <div class="thumb" style="--img:url('images/c4.jpg')"></div>
+            <div class="card-body">
+              <span class="badge led" style="--i:7">C4</span>
+              <h3>Implanter la partie GEII d'un système</h3>
+              <i class="fa-regular fa-circle-right go"></i>
+            </div>
+          </a>
         </div>
       </section>
+
     </main>
 
     <!-- ============ FOOTER ============ -->
