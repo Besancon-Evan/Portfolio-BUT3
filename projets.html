@@ -25,6 +25,16 @@
   </script>
 
   <style>
+    /* ======================================================
+       FOND D'ÉCRAN : modifie ces deux lignes
+       --wallpaper    : le fichier de ton image
+       --veil-opacity : voile de lisibilité (0 = image pure, 1 = image cachée)
+       ====================================================== */
+    :root {
+      --wallpaper: url("images/fond.jpg");
+      --veil-opacity: .3;
+    }
+
     /* ================= THÈMES ================= */
     :root, :root[data-theme="dark"] {
       --outer: #072523;
@@ -69,8 +79,28 @@
     }
     h1, h2, h3, h4, .badge, .menu a, .topbar-title { font-family: "Rajdhani", "Inter", sans-serif; }
 
+    /* ================= FOND D'ÉCRAN (fixe, compatible iPhone) ================= */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      z-index: -2;
+      background-color: var(--bg);
+      background-image: var(--wallpaper);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    body::after {
+      content: "";
+      position: fixed; inset: 0;
+      z-index: -1;
+      background: var(--outer);
+      opacity: var(--veil-opacity);
+      pointer-events: none;
+    }
+
     /* ================= STRUCTURE ================= */
-    .app { display: flex; min-height: 100vh; background: var(--bg); }
+    .app { display: flex; min-height: 100vh; background: transparent; }
     .drawer-layer { display: contents; }
     .overlay { display: none; }
     .topbar { display: none; }
@@ -217,14 +247,24 @@
     }
     .ac-card h3 { font-size: 1.45rem; line-height: 1.2; letter-spacing: .3px; margin-bottom: 18px; }
 
+    /* ---- Liste des AC (chaque ligne est un lien) ---- */
     .ac-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
     .ac-list li {
-      display: flex; align-items: baseline; gap: 12px;
       padding-top: 12px;
       border-top: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
-      line-height: 1.45;
     }
     .ac-list li:first-child { border-top: none; padding-top: 0; }
+    .ac-list li a {
+      display: flex; align-items: baseline; gap: 12px;
+      padding: 8px 10px;
+      margin: -8px -10px;
+      border-radius: 10px;
+      color: inherit;
+      text-decoration: none;
+      line-height: 1.45;
+      transition: background .2s;
+    }
+    .ac-list li a:hover { background: color-mix(in srgb, var(--c) 18%, transparent); }
     .ac-code {
       flex-shrink: 0;
       font-family: "Rajdhani", sans-serif;
@@ -234,6 +274,14 @@
       color: var(--c);
     }
     :root[data-theme="light"] .ac-card.c3 .ac-code { color: #a87c00; }
+    .ac-arrow {
+      margin-left: auto;
+      flex-shrink: 0;
+      color: var(--c);
+      opacity: .6;
+      transition: transform .2s, opacity .2s;
+    }
+    .ac-list li a:hover .ac-arrow { transform: translateX(4px); opacity: 1; }
 
     /* ================= FOOTER ================= */
     footer {
@@ -295,6 +343,7 @@
       display: block;
       max-width: 430px;
       margin: 0 auto;
+      background: var(--bg);
       border-inline: 1px solid var(--border);
       box-shadow: 0 0 40px var(--shadow);
     }
@@ -357,7 +406,8 @@
     :root[data-view="phone"] .ac-grid { grid-template-columns: 1fr; gap: 16px; }
     :root[data-view="phone"] .ac-card { padding: 18px 16px 20px; }
     :root[data-view="phone"] .ac-card h3 { font-size: 1.3rem; }
-    :root[data-view="phone"] .ac-list li { flex-direction: column; gap: 2px; }
+    :root[data-view="phone"] .ac-list li a { flex-direction: column; gap: 2px; }
+    :root[data-view="phone"] .ac-arrow { display: none; }
     :root[data-view="phone"] footer { padding: 36px 20px 20px; border-radius: 28px 28px 0 0; }
     :root[data-view="phone"] .footer-grid { grid-template-columns: 1fr; gap: 30px; }
     :root[data-view="phone"] .footer-logo .logo-card { margin-left: 0; }
@@ -443,9 +493,9 @@
             </div>
             <h3>Concevoir la partie GEII d'un système</h3>
             <ul class="ac-list">
-              <li><span class="ac-code">AC31.01</span> Contribuer à la rédaction d’un cahier des charges</li>
-              <li><span class="ac-code">AC31.02</span> Prouver la pertinence de ses choix technologiques</li>
-              <li><span class="ac-code">AC31.03</span> Rédiger un dossier de conception</li>
+              <li><a href="ac31-01.html"><span class="ac-code">AC31.01</span><span>Contribuer à la rédaction d’un cahier des charges</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
+              <li><a href="ac31-02.html"><span class="ac-code">AC31.02</span><span>Prouver la pertinence de ses choix technologiques</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
+              <li><a href="ac31-03.html"><span class="ac-code">AC31.03</span><span>Rédiger un dossier de conception</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
             </ul>
           </article>
 
@@ -457,9 +507,9 @@
             </div>
             <h3>Vérifier la partie GEII d'un système</h3>
             <ul class="ac-list">
-              <li><span class="ac-code">AC32.01</span> Évaluer la cause racine d’un dysfonctionnement</li>
-              <li><span class="ac-code">AC32.02</span> Proposer une solution corrective à un dysfonctionnement</li>
-              <li><span class="ac-code">AC32.03</span> Produire une procédure d’essais pour valider la conformité d’un système</li>
+              <li><a href="ac32-01.html"><span class="ac-code">AC32.01</span><span>Évaluer la cause racine d’un dysfonctionnement</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
+              <li><a href="ac32-02.html"><span class="ac-code">AC32.02</span><span>Proposer une solution corrective à un dysfonctionnement</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
+              <li><a href="ac32-03.html"><span class="ac-code">AC32.03</span><span>Produire une procédure d’essais pour valider la conformité d’un système</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
             </ul>
           </article>
 
@@ -471,9 +521,9 @@
             </div>
             <h3>Assurer le maintien en condition opérationnelle d'un système</h3>
             <ul class="ac-list">
-              <li><span class="ac-code">AC33.01</span> Proposer une solution de maintenance</li>
-              <li><span class="ac-code">AC33.02</span> Évaluer les coûts d’indisponibilité et de maintenance d’un système</li>
-              <li><span class="ac-code">AC33.03</span> Proposer un appui technique aux différents acteurs à l’échelle nationale et internationale</li>
+              <li><a href="ac33-01.html"><span class="ac-code">AC33.01</span><span>Proposer une solution de maintenance</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
+              <li><a href="ac33-02.html"><span class="ac-code">AC33.02</span><span>Évaluer les coûts d’indisponibilité et de maintenance d’un système</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
+              <li><a href="ac33-03.html"><span class="ac-code">AC33.03</span><span>Proposer un appui technique aux différents acteurs à l’échelle nationale et internationale</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
             </ul>
           </article>
 
@@ -485,9 +535,9 @@
             </div>
             <h3>Implanter la partie GEII d'un système</h3>
             <ul class="ac-list">
-              <li><span class="ac-code">AC34.01</span> Produire une procédure d’installation et de mise en service d’un système</li>
-              <li><span class="ac-code">AC34.02</span> Exécuter la mise en service d’un système en respectant la procédure</li>
-              <li><span class="ac-code">AC34.03</span> Produire le dossier de conformité du système en gérant le versionnage</li>
+              <li><a href="ac34-01.html"><span class="ac-code">AC34.01</span><span>Produire une procédure d’installation et de mise en service d’un système</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
+              <li><a href="ac34-02.html"><span class="ac-code">AC34.02</span><span>Exécuter la mise en service d’un système en respectant la procédure</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
+              <li><a href="ac34-03.html"><span class="ac-code">AC34.03</span><span>Produire le dossier de conformité du système en gérant le versionnage</span><i class="fa-solid fa-arrow-right ac-arrow"></i></a></li>
             </ul>
           </article>
 
@@ -502,10 +552,10 @@
         <div>
           <h4>Compétences</h4>
           <ul>
-            <li><a href="#c1"><span class="dot c1"></span>C1 – Concevoir</a></li>
-            <li><a href="#c2"><span class="dot c2"></span>C2 – Vérifier</a></li>
-            <li><a href="#c3"><span class="dot c3"></span>C3 – Maintenir</a></li>
-            <li><a href="#c4"><span class="dot c4"></span>C4 – Implanter</a></li>
+            <li><a href="c1.html"><span class="dot c1"></span>C1 – Concevoir</a></li>
+            <li><a href="c2.html"><span class="dot c2"></span>C2 – Vérifier</a></li>
+            <li><a href="c3.html"><span class="dot c3"></span>C3 – Maintenir</a></li>
+            <li><a href="c4.html"><span class="dot c4"></span>C4 – Implanter</a></li>
           </ul>
         </div>
 
