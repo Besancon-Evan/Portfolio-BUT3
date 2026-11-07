@@ -239,12 +239,15 @@
       padding: 13px 26px;
       border: 2px solid var(--accent-dark);
       border-radius: 40px;
+      background: transparent;
       color: var(--text);
       text-decoration: none;
-      font-weight: 600;
+      font: 600 1rem "Inter", sans-serif;
+      cursor: pointer;
       transition: background .2s, color .2s;
     }
     .btn:hover { background: var(--accent-dark); color: #fff; }
+    .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
     /* ================= BANNIÈRE DE BIENVENUE ================= */
     .welcome { text-align: center; padding: 30px 28px; }
@@ -268,6 +271,9 @@
     .info-item strong { display: block; margin-top: 8px; font-family: "Rajdhani", sans-serif; font-size: 1.1rem; }
     .info-item small { color: var(--muted); }
 
+    .btn .chev { transition: transform .35s; }
+    .btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+
     /* Emplacement de la photo : dépose images/photo.jpg */
     .profile-photo {
       position: relative;
@@ -281,6 +287,41 @@
     }
     .profile-photo > i { font-size: 5rem; color: color-mix(in srgb, var(--text) 45%, transparent); }
     .profile-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    /* Zone dépliée */
+    .profile-more {
+      display: grid;
+      grid-template-rows: 0fr;
+      visibility: hidden;
+      transition: grid-template-rows .45s ease, margin-top .45s ease, visibility 0s .45s;
+    }
+    .profile-more.open {
+      grid-template-rows: 1fr;
+      visibility: visible;
+      margin-top: 26px;
+      transition: grid-template-rows .45s ease, margin-top .45s ease, visibility 0s;
+    }
+    .profile-more-inner { overflow: hidden; min-height: 0; }
+    .more-box {
+      border-top: 1px solid var(--glass-border);
+      padding-top: 22px;
+      max-width: 900px;
+    }
+    .more-box h3 { font-size: 1.5rem; margin-bottom: 8px; }
+    .more-box p { font-size: 1.08rem; line-height: 1.65; margin-bottom: 14px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+    .chip {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
+      background: color-mix(in srgb, var(--accent) 14%, transparent);
+      font-weight: 600;
+      font-size: .95rem;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .profile-more, .profile-more.open { transition: none; }
+      .btn .chev { transition: none; }
+    }
 
     /* ================= CARTES C1 → C4 (pleines) ================= */
     .projects {
@@ -357,28 +398,49 @@
     /* ================= CARROUSEL DES SAÉ ================= */
     .carousel-wrap { position: relative; }
     .carousel {
-      display: flex;
-      gap: 22px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 6px 2px 12px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      overflow: hidden;
+      touch-action: pan-y;
+      cursor: grab;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
       mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
     }
-    .carousel::-webkit-scrollbar { display: none; }
+    .carousel.dragging { cursor: grabbing; }
+    .track {
+      display: flex;
+      gap: 22px;
+      width: max-content;
+      padding: 8px 2px 14px;
+      will-change: transform;
+    }
 
     .sae-card {
+      --s: var(--accent);
+      --sbg: color-mix(in srgb, var(--accent) 14%, var(--card));
       flex: 0 0 300px;
       display: flex; flex-direction: column;
-      background: color-mix(in srgb, var(--accent) 14%, var(--card));
+      background: var(--sbg);
       border: 1px solid var(--glass-border);
-      border-top: 4px solid var(--accent);
+      border-top: 4px solid var(--s);
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 6px 20px var(--shadow);
+      color: var(--text);
+      text-decoration: none;
+      transition: transform .25s, box-shadow .25s;
+      user-select: none;
+      -webkit-user-drag: none;
     }
+    /* Version plus foncée, en alternance */
+    .sae-card.alt {
+      --s: var(--accent-dark);
+      --sbg: color-mix(in srgb, var(--accent-dark) 45%, var(--bg));
+    }
+    :root[data-theme="light"] .sae-card.alt {
+      --sbg: color-mix(in srgb, var(--accent-dark) 20%, var(--card));
+    }
+    .sae-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px var(--shadow); }
+    .sae-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
     .sae-img {
       position: relative;
       height: 170px;
@@ -387,23 +449,32 @@
       overflow: hidden;
       background-image:
         var(--img, none),
-        linear-gradient(135deg, color-mix(in srgb, var(--accent) 50%, var(--card)), color-mix(in srgb, var(--accent) 15%, var(--card)));
+        linear-gradient(135deg, color-mix(in srgb, var(--s) 55%, var(--card)), color-mix(in srgb, var(--s) 18%, var(--card)));
       background-size: cover;
       background-position: center;
     }
-    .sae-body { padding: 14px 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+    .sae-body { padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
     .sae-tag {
       align-self: flex-start;
       padding: 2px 12px;
       border-radius: 20px;
-      background: var(--accent);
+      background: var(--s);
       color: #0b1f1c;
       font-family: "Rajdhani", sans-serif;
       font-weight: 700;
       letter-spacing: .8px;
     }
-    .sae-card h3 { font-size: 1.3rem; line-height: 1.2; }
-    .sae-card p { font-size: .98rem; line-height: 1.5; color: var(--muted); }
+    .sae-card.alt .sae-tag { color: #fff; }
+    .sae-card h3 { font-size: 1.25rem; line-height: 1.2; }
+    .sae-card p { font-size: .98rem; line-height: 1.5; color: var(--muted); flex: 1; }
+    .sae-more {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 6px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .sae-more i { transition: transform .2s; }
+    .sae-card:hover .sae-more i { transform: translateX(4px); }
 
     .car-btn {
       position: absolute; top: 50%;
@@ -461,16 +532,7 @@
     .dot.c3 { background: #f5c542; color: #f5c542; }
     .dot.c4 { background: #4cc27a; color: #4cc27a; }
 
-    .socials { display: flex; gap: 16px; font-size: 1.5rem; margin: 14px 0; }
-    .btn-footer {
-      display: inline-block;
-      padding: 10px 18px;
-      border: 1px solid var(--footer-link);
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: .95rem;
-    }
-    .btn-footer:hover { background: var(--footer-link); color: var(--footer-bg); text-decoration: none; }
+    .socials { display: flex; gap: 16px; font-size: 1.5rem; margin-top: 14px; }
 
     .footer-logo { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 22px; }
     .logo-tint {
@@ -564,6 +626,7 @@
     :root[data-view="phone"] .profile-photo { order: -1; width: 70%; max-width: 240px; margin: 0 auto; }
     :root[data-view="phone"] .profile-text { font-size: 1rem; }
     :root[data-view="phone"] .info-item { padding: 0 16px; }
+    :root[data-view="phone"] .more-box p { font-size: 1rem; }
     :root[data-view="phone"] .projects { grid-template-columns: 1fr; gap: 16px; }
     :root[data-view="phone"] .sae-card { flex-basis: 250px; }
     :root[data-view="phone"] .car-prev { left: -8px; }
@@ -676,13 +739,43 @@
               </a>
             </div>
 
-            <a href="profil.html" class="btn">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
+            <button class="btn" id="profileBtn" type="button" aria-expanded="false" aria-controls="profileMore">
+              <span id="profileBtnLabel">En savoir plus</span> <i class="fa-solid fa-chevron-down chev"></i>
+            </button>
           </div>
 
           <!-- Ta photo : dépose images/photo.jpg -->
           <div class="profile-photo">
             <i class="fa-solid fa-user"></i>
             <img src="images/photo.jpg" alt="Photo d'Evan Besançon" onerror="this.remove()">
+          </div>
+        </div>
+
+        <!-- Zone dépliée -->
+        <div class="profile-more" id="profileMore">
+          <div class="profile-more-inner">
+            <div class="more-box">
+              <!-- MODIFIE CE TEXTE avec tes propres mots -->
+              <h3>Mon parcours</h3>
+              <p>
+                Je suis actuellement en BUT GEII à l'IUT Nord Franche-Comté, où je découvre
+                l'électronique, l'automatisme et l'informatique industrielle à travers des
+                cours, des travaux pratiques et des projets (SAÉ) concrets.
+              </p>
+              <h3>Mes objectifs</h3>
+              <p>
+                Je souhaite poursuivre mes études et m'orienter vers un domaine technique
+                où je pourrai concevoir, tester et mettre en service des systèmes réels.
+              </p>
+              <h3>Mes centres d'intérêt</h3>
+              <!-- MODIFIE CES PASTILLES : ajoute, change ou supprime des lignes -->
+              <div class="chips">
+                <span class="chip">Aviation de chasse</span>
+                <span class="chip">Blindés</span>
+                <span class="chip">Électronique</span>
+                <span class="chip">Arduino</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -754,54 +847,62 @@
         <div class="carousel-wrap">
           <button class="car-btn car-prev" id="carPrev" type="button" aria-label="SAÉ précédente"><i class="fa-solid fa-chevron-left"></i></button>
 
-          <div class="carousel" id="carousel" tabindex="0" aria-label="Carrousel des SAÉ réalisées cette année">
-            <!-- MODIFIE CES CARTES : titre, description et image (images/sae1.jpg …).
-                 Pour ajouter une SAÉ, copie un bloc <article>. Pour en retirer, supprime-le. -->
+          <div class="carousel" id="carousel" aria-label="Carrousel des SAÉ réalisées cette année">
+            <div class="track" id="carTrack">
+              <!-- Images attendues : images/sae51.jpg, sae52.jpg, sae53.jpg, sae61.jpg, sae62.jpg
+                   La classe "alt" donne la version plus foncée.
+                   MODIFIE les descriptions "(à compléter)". -->
 
-            <article class="sae-card">
-              <div class="sae-img" style="--img:url('images/sae1.jpg')"></div>
-              <div class="sae-body">
-                <span class="sae-tag">SAÉ 1</span>
-                <h3>Titre de la SAÉ 1</h3>
-                <p>Courte description du projet : objectif, travail réalisé et résultat obtenu.</p>
-              </div>
-            </article>
+              <a class="sae-card" href="sae/sae51.html" draggable="false">
+                <div class="sae-img" style="--img:url('images/sae51.jpg')"></div>
+                <div class="sae-body">
+                  <span class="sae-tag">SAÉ 5.1</span>
+                  <h3>Étude d'une micro-centrale hydraulique</h3>
+                  <p>Étude et dimensionnement d'une micro-centrale hydraulique (à compléter).</p>
+                  <span class="sae-more">Voir la SAÉ <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+              </a>
 
-            <article class="sae-card">
-              <div class="sae-img" style="--img:url('images/sae2.jpg')"></div>
-              <div class="sae-body">
-                <span class="sae-tag">SAÉ 2</span>
-                <h3>Titre de la SAÉ 2</h3>
-                <p>Courte description du projet : objectif, travail réalisé et résultat obtenu.</p>
-              </div>
-            </article>
+              <a class="sae-card alt" href="sae/sae52.html" draggable="false">
+                <div class="sae-img" style="--img:url('images/sae52.jpg')"></div>
+                <div class="sae-body">
+                  <span class="sae-tag">SAÉ 5.2</span>
+                  <h3>Systèmes multiplexés sur véhicules</h3>
+                  <p>Étude des réseaux multiplexés embarqués dans un véhicule (à compléter).</p>
+                  <span class="sae-more">Voir la SAÉ <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+              </a>
 
-            <article class="sae-card">
-              <div class="sae-img" style="--img:url('images/sae3.jpg')"></div>
-              <div class="sae-body">
-                <span class="sae-tag">SAÉ 3</span>
-                <h3>Titre de la SAÉ 3</h3>
-                <p>Courte description du projet : objectif, travail réalisé et résultat obtenu.</p>
-              </div>
-            </article>
+              <a class="sae-card" href="sae/sae53.html" draggable="false">
+                <div class="sae-img" style="--img:url('images/sae53.jpg')"></div>
+                <div class="sae-body">
+                  <span class="sae-tag">SAÉ 5.3</span>
+                  <h3>Systèmes embarqués</h3>
+                  <p>Conception et programmation d'un système embarqué (à compléter).</p>
+                  <span class="sae-more">Voir la SAÉ <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+              </a>
 
-            <article class="sae-card">
-              <div class="sae-img" style="--img:url('images/sae4.jpg')"></div>
-              <div class="sae-body">
-                <span class="sae-tag">SAÉ 4</span>
-                <h3>Titre de la SAÉ 4</h3>
-                <p>Courte description du projet : objectif, travail réalisé et résultat obtenu.</p>
-              </div>
-            </article>
+              <a class="sae-card alt" href="sae/sae61.html" draggable="false">
+                <div class="sae-img" style="--img:url('images/sae61.jpg')"></div>
+                <div class="sae-body">
+                  <span class="sae-tag">SAÉ 6.1</span>
+                  <h3>Reconnaissance image</h3>
+                  <p>Mise en place d'un traitement d'image pour reconnaître des objets (à compléter).</p>
+                  <span class="sae-more">Voir la SAÉ <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+              </a>
 
-            <article class="sae-card">
-              <div class="sae-img" style="--img:url('images/sae5.jpg')"></div>
-              <div class="sae-body">
-                <span class="sae-tag">SAÉ 5</span>
-                <h3>Titre de la SAÉ 5</h3>
-                <p>Courte description du projet : objectif, travail réalisé et résultat obtenu.</p>
-              </div>
-            </article>
+              <a class="sae-card" href="sae/sae62.html" draggable="false">
+                <div class="sae-img" style="--img:url('images/sae62.jpg')"></div>
+                <div class="sae-body">
+                  <span class="sae-tag">SAÉ 6.2</span>
+                  <h3>ESE – Robot mobile Arduino</h3>
+                  <p>Réalisation d'un robot mobile piloté par Arduino (à compléter).</p>
+                  <span class="sae-more">Voir la SAÉ <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+              </a>
+            </div>
           </div>
 
           <button class="car-btn car-next" id="carNext" type="button" aria-label="SAÉ suivante"><i class="fa-solid fa-chevron-right"></i></button>
@@ -835,7 +936,6 @@
             <!-- TON LIEN LINKEDIN ICI -->
             <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i></a>
           </div>
-          <a href="contact.html" class="btn-footer">Me retrouver sur les réseaux</a>
         </div>
 
         <div class="footer-logo">
@@ -862,6 +962,7 @@
 </div>
 
 <script>
+  /* ================= MENU, THÈME, VUE ================= */
   (function () {
     var root = document.documentElement;
     var menuBtn = document.getElementById("menuBtn");
@@ -899,76 +1000,120 @@
     });
   })();
 
+  /* ================= PROFIL : DÉPLIER / RÉDUIRE ================= */
+  (function () {
+    var btn = document.getElementById("profileBtn");
+    var box = document.getElementById("profileMore");
+    var label = document.getElementById("profileBtnLabel");
+    if (!btn || !box) return;
+
+    btn.addEventListener("click", function () {
+      var open = box.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      label.textContent = open ? "Réduire" : "En savoir plus";
+    });
+  })();
+
   /* ================= CARROUSEL DES SAÉ ================= */
   (function () {
     var car = document.getElementById("carousel");
-    if (!car) return;
+    var track = document.getElementById("carTrack");
+    if (!car || !track) return;
 
-    var originals = Array.prototype.slice.call(car.children);
-    var SPEED = 28; // pixels par seconde : baisse pour ralentir, monte pour accélérer
+    var SPEED = 28;   // pixels par seconde (baisse pour ralentir, monte pour accélérer)
+    var GAP = 22;
 
-    // Duplique les cartes pour une boucle sans coupure
+    var originals = Array.prototype.slice.call(track.children);
+    var n = originals.length;
+
+    // Copies pour une boucle sans coupure
     originals.forEach(function (card) {
       var clone = card.cloneNode(true);
       clone.setAttribute("aria-hidden", "true");
-      car.appendChild(clone);
+      clone.setAttribute("tabindex", "-1");
+      track.appendChild(clone);
     });
 
     function loopWidth() {
-      var first = car.children[originals.length];
-      return first ? first.offsetLeft - car.children[0].offsetLeft : 0;
+      return track.children[n].offsetLeft - track.children[0].offsetLeft;
+    }
+    function stepWidth() {
+      return track.children[0].offsetWidth + GAP;
     }
 
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var paused = false, pos = 0, last = null;
+    var reduce = window.matchMedia("(prefers-color-scheme: x)").matches; // placeholder remplacé juste après
+    reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function pause()  { paused = true; }
-    function resume() { paused = false; pos = car.scrollLeft; last = null; }
+    var pos = 0;        // position actuelle (px)
+    var remain = 0;     // distance restante à parcourir suite à un clic de flèche
+    var last = null;
+    var dragging = false, dragStartX = 0, dragStartPos = 0, moved = false;
 
-    car.addEventListener("mouseenter", pause);
-    car.addEventListener("mouseleave", resume);
-    car.addEventListener("focusin", pause);
-    car.addEventListener("focusout", resume);
-    car.addEventListener("touchstart", pause, { passive: true });
-    car.addEventListener("touchend", function () { setTimeout(resume, 2500); }, { passive: true });
+    function normalize() {
+      var lw = loopWidth();
+      if (lw > 0) pos = ((pos % lw) + lw) % lw;
+    }
+    function render() {
+      track.style.transform = "translate3d(" + (-pos) + "px,0,0)";
+    }
 
     function tick(t) {
       if (last === null) last = t;
-      var dt = (t - last) / 1000;
+      var dt = Math.min((t - last) / 1000, 0.1);
       last = t;
-      var lw = loopWidth();
-      if (!paused && !reduce && lw > 0) {
-        // Si l'utilisateur a fait défiler à la main, on repart de là
-        if (Math.abs(pos - car.scrollLeft) > 2) pos = car.scrollLeft;
-        pos += SPEED * dt;
-        if (pos >= lw) pos -= lw;
-        car.scrollLeft = pos;
+
+      if (!dragging) {
+        // Défilement automatique continu (jamais mis en pause par la souris)
+        if (!reduce) pos += SPEED * dt;
+        // Glissement doux après un clic de flèche
+        if (Math.abs(remain) > 0.5) {
+          var move = remain * (1 - Math.exp(-dt * 9));
+          pos += move;
+          remain -= move;
+        } else {
+          remain = 0;
+        }
       }
+      normalize();
+      render();
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
 
-    // Remet le défilement dans la plage de la boucle (flèches / doigt)
-    car.addEventListener("scroll", function () {
-      var lw = loopWidth();
-      if (lw > 0 && car.scrollLeft >= lw) {
-        car.scrollTo({ left: car.scrollLeft - lw, behavior: "instant" });
-        pos = car.scrollLeft;
-      }
-    }, { passive: true });
-
-    function step() {
-      var c = car.children[0];
-      return c ? c.offsetWidth + 22 : 320;
-    }
+    // Flèches
     document.getElementById("carNext").addEventListener("click", function () {
-      car.scrollBy({ left: step(), behavior: "smooth" });
+      remain += stepWidth();
     });
     document.getElementById("carPrev").addEventListener("click", function () {
-      var lw = loopWidth();
-      if (car.scrollLeft < step() && lw > 0) car.scrollTo({ left: car.scrollLeft + lw, behavior: "instant" });
-      car.scrollBy({ left: -step(), behavior: "smooth" });
+      remain -= stepWidth();
     });
+
+    // Glisser à la souris / au doigt
+    car.addEventListener("pointerdown", function (e) {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      dragging = true; moved = false;
+      dragStartX = e.clientX;
+      dragStartPos = pos;
+      remain = 0;
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - dragStartX;
+      if (Math.abs(dx) > 5) { moved = true; car.classList.add("dragging"); }
+      pos = dragStartPos - dx;
+    });
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      car.classList.remove("dragging");
+    }
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
+
+    // Évite d'ouvrir une SAÉ quand on vient juste de glisser
+    car.addEventListener("click", function (e) {
+      if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+    }, true);
   })();
 </script>
 </body>
