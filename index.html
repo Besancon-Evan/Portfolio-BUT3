@@ -31,16 +31,12 @@
        --veil-opacity   : voile sur l'image (0 = image pure)
        --glass-opacity  : part de turquoise des blocs vitrés
        --glass-blur     : intensité du flou derrière la vitre
-       --logo-filter    : aspect des logos du footer
-                          "brightness(0) invert(1)" = logos blancs
-                          "none" = logos dans leurs couleurs d'origine
        ====================================================== */
     :root {
       --wallpaper: url("images/fond.jpg");
       --veil-opacity: .3;
       --glass-opacity: .65;
       --glass-blur: 14px;
-      --logo-filter: brightness(0) invert(1);
     }
 
     /* ================= THÈMES ================= */
@@ -75,7 +71,6 @@
       --shadow: rgba(16, 48, 44, .15);
       --glass-bg: rgba(196, 230, 225, var(--glass-opacity));
       --glass-border: rgba(255, 255, 255, .55);
-      /* Footer plus clair en mode clair (change cette valeur pour ajuster) */
       --footer-bg: #2f8077;
       --footer-text: #f4fffd;
       --footer-link: #e6fffb;
@@ -216,7 +211,7 @@
     }
 
     /* ================= CONTENU ================= */
-    main { flex: 1; padding: 28px 40px 40px; display: flex; flex-direction: column; gap: 28px; }
+    main { flex: 1; padding: 28px 40px 40px; display: flex; flex-direction: column; gap: 28px; min-width: 0; }
 
     section.block {
       background: var(--glass-bg);
@@ -226,6 +221,7 @@
       border-radius: 22px;
       padding: 28px;
       box-shadow: 0 8px 32px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .12);
+      min-width: 0;
     }
     .section-header {
       display: flex; align-items: center; justify-content: space-between;
@@ -314,7 +310,6 @@
     .project-card.c3 { --c: var(--c3); }
     .project-card.c4 { --c: var(--c4); }
 
-    /* Espace image : arrondi, fond en dégradé vers la couleur de la carte */
     .thumb {
       position: relative;
       height: 165px;
@@ -359,6 +354,77 @@
     }
     .project-card:hover .go { transform: translateX(4px); }
 
+    /* ================= CARROUSEL DES SAÉ ================= */
+    .carousel-wrap { position: relative; }
+    .carousel {
+      display: flex;
+      gap: 22px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 6px 2px 12px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    }
+    .carousel::-webkit-scrollbar { display: none; }
+
+    .sae-card {
+      flex: 0 0 300px;
+      display: flex; flex-direction: column;
+      background: color-mix(in srgb, var(--accent) 14%, var(--card));
+      border: 1px solid var(--glass-border);
+      border-top: 4px solid var(--accent);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+    .sae-img {
+      position: relative;
+      height: 170px;
+      margin: 10px 10px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background-image:
+        var(--img, none),
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 50%, var(--card)), color-mix(in srgb, var(--accent) 15%, var(--card)));
+      background-size: cover;
+      background-position: center;
+    }
+    .sae-body { padding: 14px 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+    .sae-tag {
+      align-self: flex-start;
+      padding: 2px 12px;
+      border-radius: 20px;
+      background: var(--accent);
+      color: #0b1f1c;
+      font-family: "Rajdhani", sans-serif;
+      font-weight: 700;
+      letter-spacing: .8px;
+    }
+    .sae-card h3 { font-size: 1.3rem; line-height: 1.2; }
+    .sae-card p { font-size: .98rem; line-height: 1.5; color: var(--muted); }
+
+    .car-btn {
+      position: absolute; top: 50%;
+      transform: translateY(-50%);
+      width: 44px; height: 44px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      background: var(--panel);
+      color: var(--text);
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px var(--shadow);
+      z-index: 2;
+      transition: background .2s;
+    }
+    .car-btn:hover { background: var(--accent-dark); color: #fff; }
+    .car-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .car-prev { left: -14px; }
+    .car-next { right: -14px; }
+
     /* ================= FOOTER (compact) ================= */
     footer {
       background: var(--footer-bg);
@@ -385,7 +451,6 @@
     footer a { color: var(--footer-link); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
-    /* Voyants C1 → C4 (rouge éclairci pour briller autant que les autres) */
     .dot {
       display: inline-block; width: 10px; height: 10px; border-radius: 50%;
       margin-right: 10px;
@@ -407,14 +472,7 @@
     }
     .btn-footer:hover { background: var(--footer-link); color: var(--footer-bg); text-decoration: none; }
 
-    /* Logos : même vert clair que les liens, côte à côte */
-    .footer-logo {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 22px;
-    }
+    .footer-logo { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 22px; }
     .logo-tint {
       display: block;
       width: 100px;
@@ -507,10 +565,13 @@
     :root[data-view="phone"] .profile-text { font-size: 1rem; }
     :root[data-view="phone"] .info-item { padding: 0 16px; }
     :root[data-view="phone"] .projects { grid-template-columns: 1fr; gap: 16px; }
+    :root[data-view="phone"] .sae-card { flex-basis: 250px; }
+    :root[data-view="phone"] .car-prev { left: -8px; }
+    :root[data-view="phone"] .car-next { right: -8px; }
     :root[data-view="phone"] footer { padding: 28px 20px 16px; border-radius: 26px 26px 0 0; }
     :root[data-view="phone"] .footer-grid { grid-template-columns: 1fr; gap: 24px; }
-    :root[data-view="phone"] .footer-logo { align-items: flex-start; flex-direction: row; gap: 20px; }
-    :root[data-view="phone"] .footer-logo img { max-width: 120px; }
+    :root[data-view="phone"] .footer-logo { justify-content: flex-start; gap: 20px; }
+    :root[data-view="phone"] .logo-tint { width: 90px; }
     :root[data-view="phone"] .footer-bottom { flex-direction: column; }
 
     @media (max-width: 1000px) {
@@ -640,7 +701,7 @@
         </div>
 
         <div class="projects">
-          <a href="c1.html" class="project-card c1 boot" style="--i:4">
+          <a href="competence/c1.html" class="project-card c1 boot" style="--i:4">
             <div class="thumb" style="--img:url('images/c1.jpg')"></div>
             <div class="card-body">
               <span class="badge led" style="--i:4">C1</span>
@@ -649,7 +710,7 @@
             </div>
           </a>
 
-          <a href="c2.html" class="project-card c2 boot" style="--i:5">
+          <a href="competence/c2.html" class="project-card c2 boot" style="--i:5">
             <div class="thumb" style="--img:url('images/c2.jpg')"></div>
             <div class="card-body">
               <span class="badge led" style="--i:5">C2</span>
@@ -658,7 +719,7 @@
             </div>
           </a>
 
-          <a href="c3.html" class="project-card c3 boot" style="--i:6">
+          <a href="competence/c3.html" class="project-card c3 boot" style="--i:6">
             <div class="thumb" style="--img:url('images/c3.jpg')"></div>
             <div class="card-body">
               <span class="badge led" style="--i:6">C3</span>
@@ -667,7 +728,7 @@
             </div>
           </a>
 
-          <a href="c4.html" class="project-card c4 boot" style="--i:7">
+          <a href="competence/c4.html" class="project-card c4 boot" style="--i:7">
             <div class="thumb" style="--img:url('images/c4.jpg')"></div>
             <div class="card-body">
               <span class="badge led" style="--i:7">C4</span>
@@ -675,6 +736,75 @@
               <i class="fa-regular fa-circle-right go"></i>
             </div>
           </a>
+        </div>
+      </section>
+
+      <!-- SAÉ RÉALISÉES CETTE ANNÉE (carrousel) -->
+      <section class="block boot" style="--i:8">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fa-solid fa-diagram-project"></i>
+            <div>
+              <h2>SAÉ réalisées <span>cette année</span></h2>
+              <p>Un aperçu des situations d'apprentissage et d'évaluation de l'année.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-wrap">
+          <button class="car-btn car-prev" id="carPrev" type="button" aria-label="SAÉ précédente"><i class="fa-solid fa-chevron-left"></i></button>
+
+          <div class="carousel" id="carousel" tabindex="0" aria-label="Carrousel des SAÉ réalisées cette année">
+            <!-- MODIFIE CES CARTES : titre, description et image (images/sae1.jpg …).
+                 Pour ajouter une SAÉ, copie un bloc <article>. Pour en retirer, supprime-le. -->
+
+            <article class="sae-card">
+              <div class="sae-img" style="--img:url('images/sae1.jpg')"></div>
+              <div class="sae-body">
+                <span class="sae-tag">SAÉ 1</span>
+                <h3>Titre de la SAÉ 1</h3>
+                <p>Courte description du projet : objectif, travail réalisé et résultat obtenu.</p>
+              </div>
+            </article>
+
+            <article class="sae-card">
+              <div class="sae-img" style="--img:url('images/sae2.jpg')"></div>
+              <div class="sae-body">
+                <span class="sae-tag">SAÉ 2</span>
+                <h3>Titre de la SAÉ 2</h3>
+                <p>Courte description du projet : objectif, travail réalisé et résultat obtenu.</p>
+              </div>
+            </article>
+
+            <article class="sae-card">
+              <div class="sae-img" style="--img:url('images/sae3.jpg')"></div>
+              <div class="sae-body">
+                <span class="sae-tag">SAÉ 3</span>
+                <h3>Titre de la SAÉ 3</h3>
+                <p>Courte description du projet : objectif, travail réalisé et résultat obtenu.</p>
+              </div>
+            </article>
+
+            <article class="sae-card">
+              <div class="sae-img" style="--img:url('images/sae4.jpg')"></div>
+              <div class="sae-body">
+                <span class="sae-tag">SAÉ 4</span>
+                <h3>Titre de la SAÉ 4</h3>
+                <p>Courte description du projet : objectif, travail réalisé et résultat obtenu.</p>
+              </div>
+            </article>
+
+            <article class="sae-card">
+              <div class="sae-img" style="--img:url('images/sae5.jpg')"></div>
+              <div class="sae-body">
+                <span class="sae-tag">SAÉ 5</span>
+                <h3>Titre de la SAÉ 5</h3>
+                <p>Courte description du projet : objectif, travail réalisé et résultat obtenu.</p>
+              </div>
+            </article>
+          </div>
+
+          <button class="car-btn car-next" id="carNext" type="button" aria-label="SAÉ suivante"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
       </section>
 
@@ -687,10 +817,10 @@
         <div>
           <h4>Compétences</h4>
           <ul>
-            <li><a href="c1.html"><span class="dot c1"></span>C1 – Concevoir</a></li>
-            <li><a href="c2.html"><span class="dot c2"></span>C2 – Vérifier</a></li>
-            <li><a href="c3.html"><span class="dot c3"></span>C3 – Maintenir</a></li>
-            <li><a href="c4.html"><span class="dot c4"></span>C4 – Implanter</a></li>
+            <li><a href="competence/c1.html"><span class="dot c1"></span>C1 – Concevoir</a></li>
+            <li><a href="competence/c2.html"><span class="dot c2"></span>C2 – Vérifier</a></li>
+            <li><a href="competence/c3.html"><span class="dot c3"></span>C3 – Maintenir</a></li>
+            <li><a href="competence/c4.html"><span class="dot c4"></span>C4 – Implanter</a></li>
           </ul>
         </div>
 
@@ -766,6 +896,78 @@
         save("view", next);
         setMenu(false);
       });
+    });
+  })();
+
+  /* ================= CARROUSEL DES SAÉ ================= */
+  (function () {
+    var car = document.getElementById("carousel");
+    if (!car) return;
+
+    var originals = Array.prototype.slice.call(car.children);
+    var SPEED = 28; // pixels par seconde : baisse pour ralentir, monte pour accélérer
+
+    // Duplique les cartes pour une boucle sans coupure
+    originals.forEach(function (card) {
+      var clone = card.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      car.appendChild(clone);
+    });
+
+    function loopWidth() {
+      var first = car.children[originals.length];
+      return first ? first.offsetLeft - car.children[0].offsetLeft : 0;
+    }
+
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var paused = false, pos = 0, last = null;
+
+    function pause()  { paused = true; }
+    function resume() { paused = false; pos = car.scrollLeft; last = null; }
+
+    car.addEventListener("mouseenter", pause);
+    car.addEventListener("mouseleave", resume);
+    car.addEventListener("focusin", pause);
+    car.addEventListener("focusout", resume);
+    car.addEventListener("touchstart", pause, { passive: true });
+    car.addEventListener("touchend", function () { setTimeout(resume, 2500); }, { passive: true });
+
+    function tick(t) {
+      if (last === null) last = t;
+      var dt = (t - last) / 1000;
+      last = t;
+      var lw = loopWidth();
+      if (!paused && !reduce && lw > 0) {
+        // Si l'utilisateur a fait défiler à la main, on repart de là
+        if (Math.abs(pos - car.scrollLeft) > 2) pos = car.scrollLeft;
+        pos += SPEED * dt;
+        if (pos >= lw) pos -= lw;
+        car.scrollLeft = pos;
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    // Remet le défilement dans la plage de la boucle (flèches / doigt)
+    car.addEventListener("scroll", function () {
+      var lw = loopWidth();
+      if (lw > 0 && car.scrollLeft >= lw) {
+        car.scrollTo({ left: car.scrollLeft - lw, behavior: "instant" });
+        pos = car.scrollLeft;
+      }
+    }, { passive: true });
+
+    function step() {
+      var c = car.children[0];
+      return c ? c.offsetWidth + 22 : 320;
+    }
+    document.getElementById("carNext").addEventListener("click", function () {
+      car.scrollBy({ left: step(), behavior: "smooth" });
+    });
+    document.getElementById("carPrev").addEventListener("click", function () {
+      var lw = loopWidth();
+      if (car.scrollLeft < step() && lw > 0) car.scrollTo({ left: car.scrollLeft + lw, behavior: "instant" });
+      car.scrollBy({ left: -step(), behavior: "smooth" });
     });
   })();
 </script>
