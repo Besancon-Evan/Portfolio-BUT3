@@ -1,2 +1,4 @@
 # Portfolio-BUT3
-A definir
+==== ATTENTION ====
+Avant de programmer ce site web, fait attention aux licornes, 
+elles ont pris le controle de GITHUB
