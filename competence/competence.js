@@ -34,3 +34,19 @@
     });
   });
 })();
+/* Resynchronise thème et vue : retour arrière, autres onglets */
+(function () {
+  var root = document.documentElement;
+  function sync() {
+    try {
+      var t = localStorage.getItem("theme");
+      var v = localStorage.getItem("view");
+      if (t) root.setAttribute("data-theme", t);
+      if (v) root.setAttribute("data-view", v);
+    } catch (e) {}
+  }
+  window.addEventListener("pageshow", sync);
+  window.addEventListener("storage", function (e) {
+    if (e.key === "theme" || e.key === "view") sync();
+  });
+})();
