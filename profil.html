@@ -1,1 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Profil d'Evan Besançon, étudiant en BUT GEII à l'IUT Nord Franche-Comté : parcours, objectifs et centres d'intérêt.">
+  <title>Mon profil – Evan Besançon</title>
+  <link rel="icon" href="images/logo.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="profil.css">
+
+  <script>
+    (function () {
+      var root = document.documentElement, theme = null, view = null;
+      try { theme = localStorage.getItem("theme"); view = localStorage.getItem("view"); } catch (e) {}
+      if (!theme) theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      if (!view) view = window.matchMedia("(max-width: 820px)").matches ? "phone" : "pc";
+      root.setAttribute("data-theme", theme);
+      root.setAttribute("data-view", view);
+    })();
+  </script>
+
+  <style>
+    :root {
+      --wallpaper: url("images/fond.jpg");
+      --veil-opacity: .3;
+      --glass-opacity: .65;
+      --glass-blur: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <div class="drawer-layer">
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="logo boot" style="--i:0">
+        <img class="logo-light" src="images/logo.png" alt="Logo Evan Besançon">
+        <img class="logo-dark" src="images/logo-sombre.png" alt="" onerror="this.remove();document.querySelector('.logo-light').style.display='block'">
+        <h1>Evan Besançon</h1>
+        <p>Étudiant en GEII</p>
+      </div>
+      <hr>
+      <ul class="menu">
+        <li class="boot" style="--i:1"><a href="index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
+        <li class="boot" style="--i:1"><a href="projets.html"><i class="fa-solid fa-microchip"></i> Mes projets AC</a></li>
+        <li class="boot" style="--i:2"><a href="profil.html" class="active"><i class="fa-solid fa-user"></i> Mon profil</a></li>
+        <li class="boot" style="--i:2"><a href="cv.html"><i class="fa-solid fa-file-lines"></i> CV</a></li>
+        <li class="boot" style="--i:3"><a href="competences.html"><i class="fa-solid fa-trophy"></i> Compétences</a></li>
+        <li class="boot" style="--i:3"><a href="parcours.html"><i class="fa-solid fa-graduation-cap"></i> Parcours</a></li>
+      </ul>
+
+      <div class="sidebar-bottom boot" style="--i:4">
+        <div class="toggles">
+          <button class="toggle-btn" data-action="theme" type="button" aria-label="Changer de thème">
+            <i class="fa-solid fa-moon icon-moon"></i>
+            <i class="fa-solid fa-sun icon-sun"></i>
+            <span class="lbl-light">Mode clair</span>
+            <span class="lbl-dark">Mode sombre</span>
+          </button>
+          <button class="toggle-btn" data-action="view" type="button" aria-label="Changer de vue">
+            <i class="fa-solid fa-mobile-screen icon-phone"></i>
+            <i class="fa-solid fa-desktop icon-desktop"></i>
+            <span class="lbl-phone">Vue téléphone</span>
+            <span class="lbl-pc">Vue PC</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ============ PAGE ============ -->
+  <div class="page">
+
+    <header class="topbar">
+      <button class="topbar-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <span class="topbar-title">Evan Besançon</span>
+      <button class="topbar-btn" data-action="view" type="button" aria-label="Changer de vue">
+        <i class="fa-solid fa-desktop"></i>
+      </button>
+    </header>
+
+    <main>
+
+      <!-- ===== PARTIE 1 : PRÉSENTATION ===== -->
+      <section class="block boot" style="--i:1">
+        <div class="profile-layout">
+          <div class="profile-content">
+            <div class="section-title">
+              <i class="fa-solid fa-user"></i>
+              <div>
+                <h2>Evan <span>Besançon</span></h2>
+                <p>Étudiant en BUT Génie Électrique et Informatique Industrielle</p>
+              </div>
+            </div>
+
+            <!-- MODIFIE CES PARAGRAPHES avec tes mots -->
+            <p class="profile-text">
+              Étudiant en BUT GEII à l'IUT Nord Franche-Comté, je développe mes compétences
+              en électronique, automatisme et informatique industrielle à travers des cours,
+              des travaux pratiques et des projets concrets.
+            </p>
+            <p class="profile-text">
+              Curieux et rigoureux, j'aime comprendre comment fonctionnent les systèmes,
+              les concevoir, les tester et les mettre en service.
+            </p>
+
+            <div class="profile-actions">
+              <a href="cv.pdf" class="btn" download><i class="fa-solid fa-download"></i> Télécharger mon CV</a>
+              <a href="competences.html" class="btn">Mes compétences <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <!-- Ta photo : dépose images/photo.jpg -->
+          <div class="profile-photo">
+            <i class="fa-solid fa-user"></i>
+            <img src="images/photo.jpg" alt="Photo d'Evan Besançon" onerror="this.remove()">
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PARTIE 2 : EN BREF ===== -->
+      <section class="block boot" style="--i:2">
+        <div class="section-title">
+          <i class="fa-solid fa-id-card"></i>
+          <h2>En <span>bref</span></h2>
+        </div>
+
+        <!-- MODIFIE ces cartes (ajoute, change ou supprime) -->
+        <div class="facts">
+          <div class="fact">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <strong>Formation</strong>
+            <span>BUT GEII</span>
+          </div>
+          <div class="fact">
+            <i class="fa-solid fa-building-columns"></i>
+            <strong>Établissement</strong>
+            <span>IUT Nord Franche-Comté</span>
+          </div>
+          <div class="fact">
+            <i class="fa-solid fa-location-dot"></i>
+            <strong>Localisation</strong>
+            <span>Belfort (à adapter)</span>
+          </div>
+          <div class="fact">
+            <i class="fa-solid fa-calendar-check"></i>
+            <strong>Disponibilité</strong>
+            <span>À compléter</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PARTIE 3 : PARCOURS ===== -->
+      <section class="block boot" style="--i:3">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fa-solid fa-route"></i>
+            <h2>Mon <span>parcours</span></h2>
+          </div>
+          <a href="parcours.html" class="btn">Voir le détail <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <!-- MODIFIE les années et les textes -->
+        <ol class="timeline">
+          <li>
+            <span class="t-date">20XX</span>
+            <h3>Baccalauréat</h3>
+            <p>Série / spécialités à compléter.</p>
+          </li>
+          <li>
+            <span class="t-date">BUT 1</span>
+            <h3>Première année de BUT GEII</h3>
+            <p>Bases de l'électronique, de l'électrotechnique et de la programmation.</p>
+          </li>
+          <li>
+            <span class="t-date">BUT 2</span>
+            <h3>Deuxième année</h3>
+            <p>Approfondissement, premiers projets et stage à compléter.</p>
+          </li>
+          <li class="current">
+            <span class="t-date">BUT 3 · en cours</span>
+            <h3>Troisième année</h3>
+            <p>SAÉ des semestres 5 et 6 : micro-centrale, systèmes embarqués, robot mobile…</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ===== PARTIE 4 : OBJECTIFS ET INTÉRÊTS ===== -->
+      <section class="block boot" style="--i:4">
+        <div class="two-cols">
+          <div>
+            <div class="section-title">
+              <i class="fa-solid fa-bullseye"></i>
+              <h2>Mes <span>objectifs</span></h2>
+            </div>
+            <!-- MODIFIE ce texte -->
+            <p class="profile-text">
+              Poursuivre mes études ou entrer dans la vie active dans un domaine technique
+              où je pourrai concevoir, tester et mettre en service des systèmes réels.
+            </p>
+          </div>
+
+          <div>
+            <div class="section-title">
+              <i class="fa-solid fa-heart"></i>
+              <h2>Centres <span>d'intérêt</span></h2>
+            </div>
+            <!-- MODIFIE ces pastilles : ajoute, change ou supprime -->
+            <div class="chips">
+              <span class="chip">Aviation de chasse</span>
+              <span class="chip">Blindés</span>
+              <span class="chip">Électronique</span>
+              <span class="chip">Arduino</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+      <div class="footer-grid">
+
+        <div>
+          <h4>Compétences</h4>
+          <ul>
+            <li><a href="competence/c1.html"><span class="dot c1"></span>C1 – Concevoir</a></li>
+            <li><a href="competence/c2.html"><span class="dot c2"></span>C2 – Vérifier</a></li>
+            <li><a href="competence/c3.html"><span class="dot c3"></span>C3 – Maintenir</a></li>
+            <li><a href="competence/c4.html"><span class="dot c4"></span>C4 – Implanter</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:contact@exemple.fr"><i class="fa-solid fa-envelope"></i>&nbsp; contact@exemple.fr</a></li>
+          </ul>
+          <div class="socials">
+            <!-- TON LIEN GITHUB ICI -->
+            <a href="#" aria-label="GitHub" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
+            <!-- TON LIEN LINKEDIN ICI -->
+            <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-logo">
+          <span class="logo-tint" style="--logo:url('images/logo-partenaires.png')">
+            <img src="images/logo-partenaires.png" alt="UMLP – IUT Nord Franche-Comté">
+          </span>
+          <span class="logo-tint" style="--logo:url('images/logo-geii.png')">
+            <img src="images/logo-geii.png" alt="Logo GEII – IUT Nord Franche-Comté">
+          </span>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <ul>
+          <li><a href="mentions-legales.html">Mentions légales</a></li>
+          <li><a href="images.html">Toutes les images</a></li>
+        </ul>
+        <span>© 2026 Evan Besançon – BUT GEII, IUT Nord Franche-Comté</span>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<script src="site.js"></script>
+</body>
+</html>
